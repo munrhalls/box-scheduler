@@ -92,7 +92,7 @@ function App() {
         ))}
         {timeBoxes.map((timeBox) => (
           <div
-            key={timeBox[0] * Math.random()}
+            key={timeBox[0] + timeBox[1]}
             className="TimeBox"
             style={{
               top: `${timeBox[0]}px`,
