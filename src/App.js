@@ -107,6 +107,7 @@ function App() {
             style={{ top: `${hour * 30}px` }}
           >
             {hour}
+            <div className="Hour Line"></div>
           </div>
         ))}
       </div>

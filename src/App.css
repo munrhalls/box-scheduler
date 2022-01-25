@@ -21,22 +21,31 @@
   position: absolute;
   height: 1px;
   background-color: #282c34;
-  width: 100%;
+  width: calc(100% - 24px);
+  left: 24px;
 }
 
 .TimeBox {
   z-index: 0;
   position: absolute;
-  width: 100%;
-  border: 1px solid darkgray;
+  width: calc(100% - 24px);
+  left: 24px;
+  border: 1px solid #282c34;
   background-color: darkgray;
 }
 
 .Hour {
-  font-size: 1.5rem;
+  color: silver;
   position: absolute;
   width: 100%;
   text-align: left;
+}
+
+.Hour .Line {
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  background-color: silver;
 }
 .App {
 }
