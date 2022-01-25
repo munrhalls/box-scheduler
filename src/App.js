@@ -30,13 +30,14 @@ function App() {
     return linesSorted.find((line) => line > yPos);
   };
   const handleMarkerClick = (e) => {
+    console.log(e.clientY - 50);
     if (mode === "Marking Lines") {
-      setMarkerLines([...markerLines, e.clientY]);
+      setMarkerLines([...markerLines, e.clientY - 50]);
     }
     if (mode === "Marking Time Boxes") {
       const timeBox = [
-        getAboveLine(e.clientY) || MarkerTop,
-        getBelowLine(e.clientY) || MarkerBot,
+        getAboveLine(e.clientY - 50) || MarkerTop,
+        getBelowLine(e.clientY - 50) || MarkerBot,
       ];
       const clickedExisting = timeBoxes.find((existing) => {
         return arrayEquals(existing, timeBox);

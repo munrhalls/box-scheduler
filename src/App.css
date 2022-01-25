@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 .Marker {
   position: relative;
   min-height: 100vh;
@@ -19,22 +22,24 @@
 .MarkerLine {
   z-index: 1;
   position: absolute;
-  height: 1px;
+  height: 4px;
   background-color: #282c34;
   width: calc(100% - 24px);
-  left: 24px;
+  left: 30px;
 }
 
 .TimeBox {
   z-index: 0;
   position: absolute;
   width: calc(100% - 24px);
-  left: 24px;
-  border: 1px solid #282c34;
+  left: 30px;
+  border-left: 4px solid #282c34;
+  border-right: 4px solid #282c34;
   background-color: darkgray;
 }
 
 .Hour {
+  font-size: 24px;
   color: silver;
   position: absolute;
   width: 100%;
