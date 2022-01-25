@@ -52,26 +52,17 @@ function App() {
       }
     }
   };
-  const handleTimeBoxClick = (e) => {
-    console.log("xxx");
 
-    const clicked = [
-      getAboveLine(e.clientY) || MarkerTop,
-      getBelowLine(e.clientY) || MarkerBot,
-    ];
-    const timeBox = timeBoxes.find(clicked);
-    setTimeBoxes(() => {
-      return timeBoxes.filter((timeBox) => {
-        console.log(timeBox.key !== timeBox.key);
-        return timeBox.key !== timeBox.key;
-      });
-    });
-  };
   return (
     <div className="App">
       <div className="ModeMenu">
-        Clicking Mode:
+        <span>Clicking Mode:</span>
         <button
+          className="Button"
+          style={{
+            background: `${mode === "Marking Lines" ? "yellow" : "black"}`,
+            color: `${mode === "Marking Lines" ? "black" : "#ffffff"}`,
+          }}
           onClick={() => {
             setMode("Marking Lines");
           }}
@@ -79,6 +70,11 @@ function App() {
           Marking Lines
         </button>
         <button
+          className="Button"
+          style={{
+            background: `${mode === "Marking Time Boxes" ? "yellow" : "black"}`,
+            color: `${mode === "Marking Time Boxes" ? "black" : "#ffffff"}`,
+          }}
           onClick={() => {
             setMode("Marking Time Boxes");
           }}
@@ -96,7 +92,6 @@ function App() {
         ))}
         {timeBoxes.map((timeBox) => (
           <div
-            onClick={handleTimeBoxClick}
             key={timeBox[0] * Math.random()}
             className="TimeBox"
             style={{
@@ -109,7 +104,7 @@ function App() {
           <div
             key={hour * Math.random()}
             className="Hour"
-            style={{ top: `${hour * 20}px` }}
+            style={{ top: `${hour * 30}px` }}
           >
             {hour}
           </div>

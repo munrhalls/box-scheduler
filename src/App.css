@@ -3,7 +3,21 @@
   min-height: 100vh;
 }
 
+.ModeMenu {
+  color: #fff;
+  background: #000000;
+}
+.ModeMenu span {
+  padding: 1rem;
+}
+.ModeMenu .Button {
+  background-color: #282c34;
+  color: #ffffff;
+  padding: 1rem;
+}
+
 .MarkerLine {
+  z-index: 1;
   position: absolute;
   height: 1px;
   background-color: #282c34;
@@ -11,13 +25,15 @@
 }
 
 .TimeBox {
+  z-index: 0;
   position: absolute;
   width: 100%;
-  border: 1px solid #282c34;
-  background-color: #282c34;
+  border: 1px solid darkgray;
+  background-color: darkgray;
 }
 
 .Hour {
+  font-size: 1.5rem;
   position: absolute;
   width: 100%;
   text-align: left;
