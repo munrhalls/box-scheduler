@@ -1,0 +1,14 @@
+.hover:hover .showOnHover {
+  display: block;
+}
+.hover .showOnHover {
+  display: none;
+}
+
+.hover:hover .showOnNoHover {
+  display: none;
+}
+
+.hover .showOnNoHover {
+  display: block;
+}

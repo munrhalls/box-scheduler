@@ -1,10 +1,13 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Hover } from "./components/Hover";
 
 function App() {
   const [markerLines, setMarkerLines] = useState([]);
   const [timeBoxes, setTimeBoxes] = useState([]);
+  const [textBoxes, setTextBoxes] = useState([]);
+
   const [mode, setMode] = useState("Marking Lines");
   const MarkerTop = 0;
   const MarkerBot = 700;
@@ -32,6 +35,7 @@ function App() {
   const handleMarkerClick = (e) => {
     console.log(e.clientY - 50);
     if (mode === "Marking Lines") {
+      //if exists, delete, else
       setMarkerLines([...markerLines, e.clientY - 50]);
     }
     if (mode === "Marking Time Boxes") {
@@ -51,6 +55,13 @@ function App() {
       } else {
         setTimeBoxes([...timeBoxes, timeBox]);
       }
+    }
+    if (mode === "Adding Text") {
+      const textBox = [
+        getAboveLine(e.clientY - 50) || MarkerTop,
+        getBelowLine(e.clientY - 50) || MarkerBot,
+      ];
+      setTextBoxes([...textBoxes, textBox]);
     }
   };
 
@@ -82,14 +93,39 @@ function App() {
         >
           Marking TimeBoxes
         </button>
+        <button
+          className="Button"
+          style={{
+            background: `${mode === "Marking Lines" ? "yellow" : "black"}`,
+            color: `${mode === "Marking Lines" ? "black" : "#ffffff"}`,
+          }}
+          onClick={() => {
+            setMode("Adding Text");
+          }}
+        >
+          Adding Text
+        </button>
       </div>
       <div className="Marker" onClick={handleMarkerClick}>
         {markerLines.map((topPos) => (
-          <div
-            key={topPos * Math.random()}
-            className="MarkerLine"
-            style={{ top: `${topPos}px` }}
-          ></div>
+          <Hover
+            showOnHover={
+              <div
+                key={topPos * Math.random()}
+                className="MarkerLine hover"
+                style={{ top: `${topPos}px` }}
+              >
+                <span className="delete">x</span>
+              </div>
+            }
+            showOnNoHover={
+              <div
+                key={topPos * Math.random()}
+                className="MarkerLine"
+                style={{ top: `${topPos}px` }}
+              ></div>
+            }
+          ></Hover>
         ))}
         {timeBoxes.map((timeBox) => (
           <div
@@ -110,6 +146,11 @@ function App() {
             {hour}
             <div className="Hour Line"></div>
           </div>
+        ))}
+        {textBoxes.map((textBox, index) => (
+          <input key={textBox + index} className="Text">
+            {textBox[3]}
+          </input>
         ))}
       </div>
     </div>
