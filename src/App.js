@@ -109,12 +109,9 @@ function App() {
       <div className="Marker" onClick={handleMarkerClick}>
         {markerLines.map((topPos) => (
           <Hover
+            key={topPos * Math.random()}
             showOnHover={
-              <div
-                key={topPos * Math.random()}
-                className="MarkerLine hover"
-                style={{ top: `${topPos}px` }}
-              >
+              <div className="MarkerLine hover" style={{ top: `${topPos}px` }}>
                 <span className="delete">x</span>
               </div>
             }
