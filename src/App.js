@@ -27,13 +27,14 @@ function App() {
     const linesSorted = markerLines.sort((a, b) => {
       return b - a;
     });
-    return linesSorted.find((line) => line < yPos);
+    return linesSorted.find((line) => line <= yPos);
   };
   const getBelowLine = (yPos) => {
     const linesSorted = markerLines.sort((a, b) => {
       return a - b;
     });
-    return linesSorted.find((line) => line > yPos);
+
+    return linesSorted.find((line) => line >= yPos);
   };
   const handleMarkerClick = (e) => {
     if (mode === "Marking Lines") {
@@ -64,17 +65,14 @@ function App() {
         getAboveLine(e.clientY - topBarHeight) || MarkerTop,
         getBelowLine(e.clientY - topBarHeight) || MarkerBot,
       ];
-      const clickedExisting = timeBoxes.find((existing) => {
-        return arrayEquals(existing, timeBox);
-      });
-      if (clickedExisting) {
-        const update = timeBoxes.filter((existing) => {
-          return !arrayEquals(existing, clickedExisting);
-        });
-        setTimeBoxes(update);
-      } else {
-        setTimeBoxes([...timeBoxes, timeBox]);
-      }
+      // let clickedExisting = timeBoxes.find((existing) => {
+      //   return arrayEquals(existing, timeBox);
+      // });
+      const boxBottoms = timeBoxes.filter(
+        (el) => el === e.clientY - topBarHeight
+      );
+      console.log(boxBottoms);
+      setTimeBoxes([...timeBoxes, timeBox]);
     }
     if (mode === "Adding Text") {
       const textBox = [
