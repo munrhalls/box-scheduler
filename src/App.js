@@ -9,6 +9,8 @@ function App() {
   const [textBoxes, setTextBoxes] = useState([]);
 
   const [mode, setMode] = useState("Marking Lines");
+  const topBarHeight = 50;
+  const markerHeight = 4;
   const MarkerTop = 0;
   const MarkerBot = 700;
   const hours = [...Array(24).keys()];
@@ -33,15 +35,33 @@ function App() {
     return linesSorted.find((line) => line > yPos);
   };
   const handleMarkerClick = (e) => {
-    console.log(e.clientY - 50);
     if (mode === "Marking Lines") {
-      //if exists, delete, else
-      setMarkerLines([...markerLines, e.clientY - 50]);
+      const newLine = e.clientY - topBarHeight;
+      function checkExisting() {
+        let clickedExisting = undefined;
+        for (let i = 0 - markerHeight; i <= markerHeight; i++) {
+          const check = newLine + i;
+          if (markerLines.includes(check)) {
+            return check;
+          }
+        }
+        return clickedExisting;
+      }
+      const clickedExisting = checkExisting();
+      if (clickedExisting) {
+        const update = markerLines.filter((el) => {
+          return el !== clickedExisting;
+        });
+        console.log(update);
+        setMarkerLines(update);
+      } else {
+        setMarkerLines([...markerLines, newLine]);
+      }
     }
     if (mode === "Marking Time Boxes") {
       const timeBox = [
-        getAboveLine(e.clientY - 50) || MarkerTop,
-        getBelowLine(e.clientY - 50) || MarkerBot,
+        getAboveLine(e.clientY - topBarHeight) || MarkerTop,
+        getBelowLine(e.clientY - topBarHeight) || MarkerBot,
       ];
       const clickedExisting = timeBoxes.find((existing) => {
         return arrayEquals(existing, timeBox);
@@ -50,7 +70,6 @@ function App() {
         const update = timeBoxes.filter((existing) => {
           return !arrayEquals(existing, timeBox);
         });
-        console.log(update);
         setTimeBoxes(update);
       } else {
         setTimeBoxes([...timeBoxes, timeBox]);
@@ -58,8 +77,8 @@ function App() {
     }
     if (mode === "Adding Text") {
       const textBox = [
-        getAboveLine(e.clientY - 50) || MarkerTop,
-        getBelowLine(e.clientY - 50) || MarkerBot,
+        getAboveLine(e.clientY - topBarHeight) || MarkerTop,
+        getBelowLine(e.clientY - topBarHeight) || MarkerBot,
       ];
       setTextBoxes([...textBoxes, textBox]);
     }
