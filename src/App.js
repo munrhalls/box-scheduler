@@ -69,7 +69,7 @@ function App() {
       });
       if (clickedExisting) {
         const update = timeBoxes.filter((existing) => {
-          return !arrayEquals(existing, timeBox);
+          return !arrayEquals(existing, clickedExisting);
         });
         setTimeBoxes(update);
       } else {
@@ -127,23 +127,34 @@ function App() {
         </button>
       </div>
       <div className="Marker" onClick={handleMarkerClick}>
-        {markerLines.map((topPos) => (
-          <Hover
-            key={topPos * Math.random()}
-            showOnHover={
-              <div className="MarkerLine hover" style={{ top: `${topPos}px` }}>
-                <span className="delete">x</span>
-              </div>
-            }
-            showOnNoHover={
-              <div
-                key={topPos * Math.random()}
-                className="MarkerLine"
-                style={{ top: `${topPos}px` }}
-              ></div>
-            }
-          ></Hover>
-        ))}
+        {markerLines.map((topPos) =>
+          mode === "Marking Lines" ? (
+            <Hover
+              key={topPos * Math.random()}
+              showOnHover={
+                <div
+                  className="MarkerLine hover"
+                  style={{ top: `${topPos}px` }}
+                >
+                  <span className="delete">x</span>
+                </div>
+              }
+              showOnNoHover={
+                <div
+                  key={topPos * Math.random()}
+                  className="MarkerLine"
+                  style={{ top: `${topPos}px` }}
+                ></div>
+              }
+            ></Hover>
+          ) : (
+            <div
+              key={topPos * Math.random()}
+              className="MarkerLine"
+              style={{ top: `${topPos}px` }}
+            ></div>
+          )
+        )}
         {timeBoxes.map((timeBox) => (
           <div
             key={timeBox[0] + timeBox[1]}
