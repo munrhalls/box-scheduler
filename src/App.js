@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Hover } from "./components/Hover";
 
 function App() {
+  // sd
   const [markerLines, setMarkerLines] = useState([]);
   const [textBoxes, setTextBoxes] = useState([]);
 
@@ -38,26 +39,19 @@ function App() {
   const MarkerTop = 0;
   const MarkerBot = 700;
   const hours = [...Array(24).keys()];
-  function arrayEquals(a, b) {
-    return (
-      Array.isArray(a) &&
-      Array.isArray(b) &&
-      a.length === b.length &&
-      a.every((val, index) => val === b[index])
-    );
-  }
+  // function arrayEquals(a, b) {
+  //   return (
+  //     Array.isArray(a) &&
+  //     Array.isArray(b) &&
+  //     a.length === b.length &&
+  //     a.every((val, index) => val === b[index])
+  //   );
+  // }
   const getAboveLine = (yPos) => {
-    const linesSorted = markerLines.sort((a, b) => {
-      return b - a;
-    });
-    return linesSorted.find((line) => line <= yPos);
+    return markerLines.find((line) => line <= yPos);
   };
   const getBelowLine = (yPos) => {
-    const linesSorted = markerLines.sort((a, b) => {
-      return a - b;
-    });
-
-    return linesSorted.find((line) => line >= yPos);
+    return markerLines.find((line) => line >= yPos);
   };
   function checkExisting(newLine) {
     let clickedExisting = undefined;
@@ -91,11 +85,11 @@ function App() {
       }
     }
     if (mode === "Marking Time Boxes") {
-      console.log(timeBoxes);
-      // const timeBox = [
-      //   getAboveLine(e.clientY - topBarHeight) || MarkerTop,
-      //   getBelowLine(e.clientY - topBarHeight) || MarkerBot,
-      // ];
+      const range = [
+        getAboveLine(e.clientY - topBarHeight) || MarkerTop,
+        getBelowLine(e.clientY - topBarHeight) || MarkerBot,
+      ];
+
       // // let clickedExisting = timeBoxes.find((existing) => {
       // //   return arrayEquals(existing, timeBox);
       // // });
@@ -155,7 +149,7 @@ function App() {
           Adding Text
         </button>
       </div>
-      <div className="Marker" onClick={handleMarkerClick}>
+      <div className="Schedule" onClick={handleMarkerClick}>
         {markerLines.map((topPos) =>
           mode === "Marking Lines" ? (
             <Hover
@@ -184,13 +178,16 @@ function App() {
             ></div>
           )
         )}
-        {timeBoxes.map((timeBox) => (
+        {timeBoxes.map((timeBox, index) => (
           <div
             key={timeBox[0] + timeBox[1]}
             className="TimeBox"
             style={{
               top: `${timeBox[0]}px`,
               height: `${timeBox[1] - timeBox[0]}px`,
+              borderBottom: `${
+                index === timeBoxes.length - 1 ? "4px solid #282828" : "none"
+              }`,
             }}
           ></div>
         ))}
@@ -198,16 +195,11 @@ function App() {
           <div
             key={hour * Math.random()}
             className="Hour"
-            style={{ top: `${hour * 30}px` }}
+            style={{ top: `${hour * (696 / 24)}px` }}
           >
             {hour}
             <div className="Hour Line"></div>
           </div>
-        ))}
-        {textBoxes.map((textBox, index) => (
-          <input key={textBox + index} className="Text">
-            {textBox[3]}
-          </input>
         ))}
       </div>
     </div>
