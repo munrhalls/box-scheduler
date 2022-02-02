@@ -56,7 +56,7 @@
 .MarkerLine.hover {
   z-index: 1;
   position: absolute;
-  height: 4px;
+  height: 8px;
   background-color: darkred;
   width: calc(100% - 24px);
   left: 30px;

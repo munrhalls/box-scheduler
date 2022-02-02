@@ -11,6 +11,7 @@ function App() {
   const [mode, setMode] = useState("Marking Lines");
   const topBarHeight = 50;
   const markerHeight = 4;
+  const markerHoverHeight = 8;
   const MarkerTop = 0;
   const MarkerBot = 700;
   const hours = [...Array(24).keys()];
@@ -39,7 +40,7 @@ function App() {
       const newLine = e.clientY - topBarHeight;
       function checkExisting() {
         let clickedExisting = undefined;
-        for (let i = 0 - markerHeight; i <= markerHeight; i++) {
+        for (let i = 0 - markerHoverHeight; i <= markerHoverHeight; i++) {
           const check = newLine + i;
           if (markerLines.includes(check)) {
             return check;
