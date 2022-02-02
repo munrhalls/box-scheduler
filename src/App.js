@@ -5,9 +5,32 @@ import { Hover } from "./components/Hover";
 
 function App() {
   const [markerLines, setMarkerLines] = useState([]);
-  const [timeBoxes, setTimeBoxes] = useState([]);
   const [textBoxes, setTextBoxes] = useState([]);
 
+  const makeTimeBoxes = function () {
+    let timeBoxes = [];
+    const elStartY = 0;
+    const elEndY = 700;
+    if (markerLines.length < 1) {
+      timeBoxes.unshift([elStartY, elEndY]);
+      return timeBoxes;
+    }
+    if (markerLines.length === 1) {
+      timeBoxes.push([elStartY, markerLines[0]]);
+      timeBoxes.push([markerLines[0], elEndY]);
+      return timeBoxes;
+    }
+    if (markerLines.length > 1) {
+      for (let i = 0; i < markerLines.length - 1; i++) {
+        const timeBox = [markerLines[i], markerLines[i + 1]];
+        timeBoxes.push(timeBox);
+      }
+      timeBoxes.unshift([elStartY, markerLines[0]]);
+      timeBoxes.push([markerLines[markerLines.length - 1], elEndY]);
+      return timeBoxes;
+    }
+  };
+  const timeBoxes = makeTimeBoxes();
   const [mode, setMode] = useState("Marking Lines");
   const topBarHeight = 50;
   const markerHeight = 4;
@@ -36,51 +59,59 @@ function App() {
 
     return linesSorted.find((line) => line >= yPos);
   };
+  function checkExisting(newLine) {
+    let clickedExisting = undefined;
+    for (let i = 0 - markerHoverHeight; i <= markerHoverHeight; i++) {
+      const check = newLine + i;
+      if (markerLines.includes(check)) {
+        return check;
+      }
+    }
+    return clickedExisting;
+  }
   const handleMarkerClick = (e) => {
     if (mode === "Marking Lines") {
       const newLine = e.clientY - topBarHeight;
-      function checkExisting() {
-        let clickedExisting = undefined;
-        for (let i = 0 - markerHoverHeight; i <= markerHoverHeight; i++) {
-          const check = newLine + i;
-          if (markerLines.includes(check)) {
-            return check;
-          }
-        }
-        return clickedExisting;
-      }
-      const clickedExisting = checkExisting();
+
+      const clickedExisting = checkExisting(newLine);
       if (clickedExisting) {
         const update = markerLines.filter((el) => {
           return el !== clickedExisting;
         });
-        console.log(update);
-        setMarkerLines(update);
+        const sorted = update.sort((a, b) => {
+          return a - b;
+        });
+        setMarkerLines(sorted);
       } else {
-        setMarkerLines([...markerLines, newLine]);
+        const update = [...markerLines, newLine];
+        const sorted = update.sort((a, b) => {
+          return a - b;
+        });
+        setMarkerLines(sorted);
       }
     }
     if (mode === "Marking Time Boxes") {
-      const timeBox = [
-        getAboveLine(e.clientY - topBarHeight) || MarkerTop,
-        getBelowLine(e.clientY - topBarHeight) || MarkerBot,
-      ];
-      // let clickedExisting = timeBoxes.find((existing) => {
-      //   return arrayEquals(existing, timeBox);
-      // });
-      const boxBottoms = timeBoxes.filter(
-        (el) => el === e.clientY - topBarHeight
-      );
-      console.log(boxBottoms);
-      setTimeBoxes([...timeBoxes, timeBox]);
+      console.log(timeBoxes);
+      // const timeBox = [
+      //   getAboveLine(e.clientY - topBarHeight) || MarkerTop,
+      //   getBelowLine(e.clientY - topBarHeight) || MarkerBot,
+      // ];
+      // // let clickedExisting = timeBoxes.find((existing) => {
+      // //   return arrayEquals(existing, timeBox);
+      // // });
+      // const boxBottoms = timeBoxes.filter(
+      //   (el) => el === e.clientY - topBarHeight
+      // );
+      // console.log(boxBottoms);
+      // setTimeBoxes([...timeBoxes, timeBox]);
     }
-    if (mode === "Adding Text") {
-      const textBox = [
-        getAboveLine(e.clientY - topBarHeight) || MarkerTop,
-        getBelowLine(e.clientY - topBarHeight) || MarkerBot,
-      ];
-      setTextBoxes([...textBoxes, textBox]);
-    }
+    // if (mode === "Adding Text") {
+    //   const textBox = [
+    //     getAboveLine(e.clientY - topBarHeight) || MarkerTop,
+    //     getBelowLine(e.clientY - topBarHeight) || MarkerBot,
+    //   ];
+    //   setTextBoxes([...textBoxes, textBox]);
+    // }
   };
 
   return (
